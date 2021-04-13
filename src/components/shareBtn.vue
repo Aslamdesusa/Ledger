@@ -1,14 +1,25 @@
 <template>
     <div>
+        <v-snackbar v-model="snackbar">{{ text }}
+            <template v-slot:action="{ attrs }">
+                <v-btn color="pink" text v-bind="attrs" @click="snackbar = false">
+                    Close
+                </v-btn>
+            </template>
+        </v-snackbar>
         <v-btn rounded color="success" small dark @click="shareText">SEND TO</v-btn>
     </div>
 </template>
 
 <script>
+import Vue from 'vue'
+import Clipboard from 'v-clipboard'
+Vue.use(Clipboard)
 export default {
     data() {
         return {
-
+            snackbar: false,
+            text: ``,
         }
     },
     methods: {
@@ -65,6 +76,9 @@ export default {
         },
         shareText() {
             let shareableMessage = this.localData();
+            this.$clipboard(shareableMessage)
+            this.snackbar = true
+            this.text = 'Message has been copied!'
             if (window.navigator.share) {
                 window.navigator.share({
                     title: 'Final Total',

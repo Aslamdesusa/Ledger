@@ -26,10 +26,9 @@
       <div>{{this.$route.name}}</div>
 
       <v-spacer></v-spacer>
-
-      <v-btn href="https://github.com/vuetifyjs/vuetify/releases/latest" target="_blank" text>
+      <v-btn text v-if="this.$route.path == '/final-jantri' || this.$route.path == '/jantri'">
         <span class="mr-2">Points</span>
-        0
+        {{this.$store.state.points}}
       </v-btn>
     </v-app-bar>
 

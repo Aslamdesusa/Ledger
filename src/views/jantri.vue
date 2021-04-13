@@ -1,7 +1,7 @@
 <template>
 <div>
     <v-card class="mx-auto mb-3"  outlined>
-            <div class="py-4 d-flex justify-center">
+            <div class="py-2 d-flex justify-center">
                 <div class="text-center px-2">
                 <v-menu offset-y>
                     <template v-slot:activator="{ on, attrs }">
@@ -15,7 +15,7 @@
                 </v-menu>
                 </div>
                 <div class="text-center px-2">
-                <v-btn rounded color="error" small dark @click="deleteAll">DELETE ALL</v-btn>
+                <v-btn rounded color="error" small dark @click="deleteAll('e')">DELETE ALL</v-btn>
                 </div>
                 <div class="text-center px-2">
                     <ShareBtn />
@@ -25,10 +25,11 @@
         <v-container class="main-container">
             <v-row class="mb-6" no-gutters v-for="(i, ind) in jantriData" :key="ind" style="margin-top: -22px !important;">
                 <v-col v-for="(item, index) in i" :key="index" class="ml-1">
-                    <v-card class="pa-2" tile outlined height="85" style="border-radius: 5px !important;">
-                        <small>{{item.number}}</small>
+                    <v-card tile outlined height="85" style="border-radius: 5px !important; padding: 2px !important; margin: 0 !important;">
+                        <p class="number-font">{{item.number}}</p>
                         <v-text-field :ref="String(item.number)" solo flat v-if="item.number != ''" class="text-only p-0" type="number" v-model="item.point" @keyup.enter="calculationOfSingleLine(i, $event, item.number, item.point)"></v-text-field>
-                        <v-text-field solo flat v-if="item.number == ''" readonly v-model="item.point"></v-text-field>
+                        <p class="number-font" v-if="item.number == ''" style="width: 50px; overflow: hidden; height: 97px; text-align: center; justify-content: center; align-items: center; display: flex; color: red;">{{item.point}}</p>
+                        <!-- <v-text-field solo flat v-if="item.number == ''" readonly v-model="item.point"></v-text-field> -->
                     </v-card>
                 </v-col>
             </v-row>
@@ -44,7 +45,7 @@ export default {
     },
     data() {
         return {
-            jantriData: this.$store.state.jantriRecords,
+            jantriData: [],
             items: [
                 { title: "HOME", to: "/" },
                 { title: "JANTRI", to: "/jantri" },
@@ -64,11 +65,22 @@ export default {
             let jData = JSON.parse(localStorage.getItem("JData"));
             if (jData) {
                 this.jantriData = jData
+            } else {
+                let jantriData = this.$store.state.jantriRecords;
+                jantriData.map(value => {
+                    this.jantriData.push(value);
+                })
             }
+            let lastArrayLastItem = this.jantriData[this.jantriData.length - 1];
+            let lastIndex = lastArrayLastItem[lastArrayLastItem.length - 1];
+
+            this.$store.state.points = lastIndex['point'];
         },
-        deleteAll() {
+        deleteAll(e) {
 			localStorage.removeItem('JData');
-			localStorage.removeItem('data');
+            if (e) {
+                location.reload()
+            }
 		},
         calculationOfSingleLine(items, event, ref, value) {
             const lastItem = items[items.length - 1];
@@ -135,7 +147,7 @@ export default {
                 }
             }
 
-            this.deleteAll()
+            localStorage.removeItem('JData');
             this.RecordToLocalStorage()
         },
         RecordToLocalStorage() {
@@ -150,6 +162,14 @@ export default {
     padding: 0px !important;
 }
 
+div > div > div > div.v-input__slot > div {
+    font-size: 20px !important;
+}
+
+.v-text-field.v-text-field--enclosed:not(.v-text-field--rounded) > .v-input__control > .v-input__slot, .v-text-field.v-text-field--enclosed .v-text-field__details {
+    padding: 0 2px;
+}
+
 div.v-input__slot > div > input[readonly=readonly]{
     color: red;
 }
@@ -159,8 +179,12 @@ div.v-input__slot > div > input[readonly=readonly]{
 <style scoped>
 @media only screen and (max-width: 600px) {
     .main-container {
-        zoom: 40%;
-        font-size: 25px;
+        zoom: 45%;
+    }
+    .number-font {
+        padding: 0px !important;
+        margin: 2px 0px -7px 0px;
+        font-size: 24px;
     }
 }
 </style>

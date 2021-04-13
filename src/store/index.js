@@ -6,7 +6,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    jantriRecords: jantriRecords
+    jantriRecords: jantriRecords,
+    points: 0
   },
   mutations: {
   },
