@@ -9,11 +9,10 @@ app.use(cors());
 
 let ENV = process.env.NODE_ENV || 'production';
 
-app.use(express.static(__dirname + `/dist`));
+const config = require(`./${ENV}.config.json`);
+
+app.use(express.static(__dirname + `/build/${ENV}/`));
 // Handle SPA
-app.get(/.*/, (req, res) => res.sendFile(__dirname + `/dist/index.html`));
+app.get(/.*/, (req, res) => res.sendFile(__dirname + `/build/${ENV}/index.html`));
 
-const port = process.env.PORT || 8080
-app.listen(port)
-
-app.listen(port, () => console.log(`Server started on port ${port}`));
+app.listen(config.application.port, () => console.log(`Server started on port ${config.application.port}`));
