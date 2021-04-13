@@ -158,6 +158,7 @@ div.v-input__slot > div > input[readonly=readonly]{
 @media only screen and (max-width: 600px) {
     .main-container {
         zoom: 40%;
+        font-size: 25px;
     }
 }
 </style>

@@ -13,10 +13,10 @@ export default {
     },
     methods: {
         shareText() {
-            if (navigator.share) {
-                navigator.share({
-                    title: window.document.title,
-                    url: window.document.location.href
+            if (window.navigator.share) {
+                window.navigator.share({
+                    title: 'Total Items',
+                    text: 'Hello World',
                 }).then(() =>{
                     console.log('Thanks for sharing!');
                 }).catch(console.error)

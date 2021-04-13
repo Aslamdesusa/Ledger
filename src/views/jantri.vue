@@ -27,7 +27,7 @@
                 <v-col v-for="(item, index) in i" :key="index" class="ml-1">
                     <v-card class="pa-2" tile outlined height="85" style="border-radius: 5px !important;">
                         <small>{{item.number}}</small>
-                        <v-text-field :ref="String(item.number)" solo flat v-if="item.number != ''" class="text-only p-0" type="number" v-model="item.point" @keyup="calculationOfSingleLine(i, $event, item.number, item.point)"></v-text-field>
+                        <v-text-field :ref="String(item.number)" solo flat v-if="item.number != ''" class="text-only p-0" type="number" v-model="item.point" @keyup.enter="calculationOfSingleLine(i, $event, item.number, item.point)"></v-text-field>
                         <v-text-field solo flat v-if="item.number == ''" readonly v-model="item.point"></v-text-field>
                     </v-card>
                 </v-col>
@@ -160,6 +160,7 @@ div.v-input__slot > div > input[readonly=readonly]{
 @media only screen and (max-width: 600px) {
     .main-container {
         zoom: 40%;
+        font-size: 25px;
     }
 }
 </style>
