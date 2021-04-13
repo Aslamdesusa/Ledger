@@ -9,9 +9,9 @@ app.use(cors());
 
 let ENV = process.env.NODE_ENV || 'production';
 
-app.use(express.static(__dirname + `/temp/${ENV}/`));
+app.use(express.static(__dirname + `/dist`));
 // Handle SPA
-app.get(/.*/, (req, res) => res.sendFile(__dirname + `/temp/${ENV}/index.html`));
+app.get(/.*/, (req, res) => res.sendFile(__dirname + `/dist/index.html`));
 
 const port = process.env.PORT || 8080
 app.listen(port)
